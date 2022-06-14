@@ -1,0 +1,48 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+
+    implementation 'org.ow2.asm:asm:7.1'
+    implementation 'org.ow2.asm:asm-commons:7.1'
+    implementation 'org.ow2.asm:asm-analysis:7.1'
+    implementation 'org.ow2.asm:asm-util:7.0'
+    implementation 'org.ow2.asm:asm-tree:7.1'
+    compileOnly 'com.android.tools.build:gradle:4.2.1', { //这里注意需要保持版本一致，否则会报错
+        exclude group:'org.ow2.asm'
+    }
+}
+repositories {
+    mavenCentral()
+    maven {
+        url '../repo'
+    }
+}
+
+
+def maven_version = "1.0.4"
+def maven_groupId = 'cn.mtjsoft.www'
+def maven_artifactId = "burypoint.plugin"
+
+//下面的version和group必须有，gradle打包的pom文件依赖这个版本号和group
+version = maven_version
+group = maven_groupId
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            repository(url: uri('../repo'))
+
+            pom.project {
+                name maven_artifactId
+                groupId maven_groupId
+                artifactId maven_artifactId
+                version maven_version
+//                packaging 'aar'
+            }
+        }
+    }
+}
