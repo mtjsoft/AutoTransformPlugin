@@ -22,7 +22,7 @@ repositories {
 }
 
 
-def maven_version = "1.0.4"
+def maven_version = "1.0.5"
 def maven_groupId = 'cn.mtjsoft.www'
 def maven_artifactId = "burypoint.plugin"
 

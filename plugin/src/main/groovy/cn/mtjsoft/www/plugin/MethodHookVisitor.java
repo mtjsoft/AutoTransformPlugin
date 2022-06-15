@@ -3,6 +3,8 @@ package cn.mtjsoft.www.plugin;
 import org.gradle.api.Project;
 import org.objectweb.asm.*;
 
+import cn.mtjsoft.www.plugin.utils.RandomFieldAndMethodUtils;
+
 public class MethodHookVisitor extends ClassVisitor {
 
     private String className = null;
@@ -25,10 +27,10 @@ public class MethodHookVisitor extends ClassVisitor {
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces);
-        className = name.replace("/", ".");
-        isIgnoreMethodHook = className.contains("cn.mtjsoft.www.plugin");
+        className = name;
+        isIgnoreMethodHook = className.contains("cn/mtjsoft/www/plugin");
         if (config.isMapping() && !isIgnoreMethodHook) {
-            mappingPrinter.log("[CLASSNAME]" + className + name);
+            mappingPrinter.log("[CLASSNAME]" + className);
         }
     }
 
@@ -40,9 +42,7 @@ public class MethodHookVisitor extends ClassVisitor {
     @Override
     public void visitEnd() {
         if (!isIgnoreMethodHook) {
-            // 插入一个字符串变量
-            FieldVisitor fv = cv.visitField(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, "phone", "Ljava/lang/String;", null, "155");
-            fv.visitEnd();
+            new RandomFieldAndMethodUtils(cv, className).randomFieldAndMethod();
         }
         super.visitEnd();
     }
