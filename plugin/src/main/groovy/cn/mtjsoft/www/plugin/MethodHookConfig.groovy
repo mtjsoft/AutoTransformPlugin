@@ -20,7 +20,7 @@ class MethodHookConfig {
     //是否用插桩后的jar包替换项目中的jar包
     boolean replaceJar = false
     String impl = ""
-
+    int randomCount = 1
 
     @Override
     String toString() {
@@ -39,6 +39,7 @@ class MethodHookConfig {
             jsonObject.put("methodRegexs", methodRegexs)
             jsonObject.put("replaceJar", replaceJar)
             jsonObject.put("impl", impl)
+            jsonObject.put("randomCount", randomCount)
         } catch (Throwable e) {
             //JSONException
         }

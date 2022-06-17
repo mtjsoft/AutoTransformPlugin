@@ -9,25 +9,31 @@ import org.objectweb.asm.Opcodes;
 import java.util.Random;
 import java.util.UUID;
 
+import cn.mtjsoft.www.plugin.MethodHookConfig;
 import kotlin.Pair;
 
 public class RandomFieldAndMethodUtils {
 
     private ClassVisitor cv;
     private String className;
+    private MethodHookConfig config;
 
     private final Random random = new Random();
 
     private final byte[] bytes = new byte[]{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x10, 0x11, 0x12};
 
-    private final int maxRandomNum = 30;
+    private int maxRandomNum = 1;
 
-    public RandomFieldAndMethodUtils(ClassVisitor classVisitor, String className) {
+    public RandomFieldAndMethodUtils(ClassVisitor classVisitor, String className, MethodHookConfig config) {
         this.cv = classVisitor;
         this.className = className;
+        this.config = config;
     }
 
     public void randomFieldAndMethod() {
+        if (config.getRandomCount() > 0) {
+            maxRandomNum = config.getRandomCount();
+        }
         for (int i = 0; i < maxRandomNum; i++) {
             Pair<String, Object> pair = randomPair();
             addFieldAndMethod(i, randomName(), pair.getFirst(), pair.getSecond());
@@ -35,7 +41,7 @@ public class RandomFieldAndMethodUtils {
     }
 
     private void addFieldAndMethod(int number, String fieldName, String fieldType, Object value) {
-        FieldVisitor fv = cv.visitField(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, fieldName + number, fieldType, null, value);
+        FieldVisitor fv = cv.visitField(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL, fieldName + number, fieldType, null, null);
         fv.visitEnd();
         // public get
         MethodVisitor mv = cv.visitMethod(Opcodes.ACC_PUBLIC, "get" + fieldName + number, "()" + fieldType, null, null);

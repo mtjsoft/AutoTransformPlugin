@@ -4,6 +4,10 @@ apply plugin: 'mtjsoft.auto.burypoint.plugin'
 methodhook {
     enable = true
     all = true
+    classRegexs = [
+            "cn/mtjsoft/www/autotransformplugin/keep.*?Java",
+            "cn/mtjsoft/www/autotransformplugin.*?Activity"
+    ]
 }
 android {
     compileSdkVersion 30
@@ -16,6 +20,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -47,4 +52,5 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation "androidx.multidex:multidex:2.0.1"
 }

@@ -8,6 +8,7 @@ import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
+import java.text.SimpleDateFormat
 import java.util.regex.Pattern
 
 class MethodHookTransform extends Transform {
@@ -58,6 +59,8 @@ class MethodHookTransform extends Transform {
         if (!mtc.enable) {
             return
         }
+        SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.CHINESE)
+        println("startTime: " + mSimpleDateFormat.format(new Date()))
         MethodHookInjectImpl impl = new MethodHookInjectImpl(project)
         impl.setConfig(mtc)
 
@@ -65,7 +68,7 @@ class MethodHookTransform extends Transform {
             eachClass(input, impl, outputProvider)
             eachJar(context, input, impl, outputProvider)
         }
-
+        println("endTime: " + mSimpleDateFormat.format(new Date()))
         println '┌------------------------┐'
         println '|      Method Hook  √    |'
         println '└------------------------┘'
@@ -123,7 +126,7 @@ class MethodHookTransform extends Transform {
                         fos.write(code)
                         fos.close()
 
-                        println "[class]" + file.name + ' is injected.'
+//                        println "[class]" + file.name + ' is injected.'
                     }
                 }
             } else {

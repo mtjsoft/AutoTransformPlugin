@@ -5,14 +5,15 @@ dependencies {
     implementation gradleApi()
     implementation localGroovy()
 
-    implementation 'org.ow2.asm:asm:7.1'
-    implementation 'org.ow2.asm:asm-commons:7.1'
-    implementation 'org.ow2.asm:asm-analysis:7.1'
-    implementation 'org.ow2.asm:asm-util:7.0'
-    implementation 'org.ow2.asm:asm-tree:7.1'
-    compileOnly 'com.android.tools.build:gradle:4.2.1', { //这里注意需要保持版本一致，否则会报错
-        exclude group:'org.ow2.asm'
-    }
+//    implementation 'org.ow2.asm:asm:7.1'
+//    implementation 'org.ow2.asm:asm-commons:7.1'
+//    implementation 'org.ow2.asm:asm-analysis:7.1'
+//    implementation 'org.ow2.asm:asm-util:7.0'
+//    implementation 'org.ow2.asm:asm-tree:7.1'
+//    compileOnly 'com.android.tools.build:gradle:4.2.1', { //这里注意需要保持版本一致，否则会报错
+//        exclude group:'org.ow2.asm'
+//    }
+    implementation 'com.android.tools.build:gradle:4.0.1'
 }
 repositories {
     mavenCentral()
@@ -22,7 +23,7 @@ repositories {
 }
 
 
-def maven_version = "1.0.5"
+def maven_version = "1.0.17"
 def maven_groupId = 'cn.mtjsoft.www'
 def maven_artifactId = "burypoint.plugin"
 

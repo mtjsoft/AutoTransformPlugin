@@ -33,11 +33,20 @@ class MethodHookInjectImpl implements Inject {
     }
 
     private static boolean isInjectImpl(String name) {
-        if (name.endsWith(".class") && !name.startsWith("R\$") &&
-                "R.class" != name && "BuildConfig.class" != name) {
-            return true
-        }
-        return false
+//        if (name.endsWith(".class") && !name.startsWith("R\$") &&
+//                "R.class" != name && "BuildConfig.class" != name) {
+//            return true
+//        }
+//        return false
+        // 过滤出想插入垃圾代码的类
+        boolean isInject = name.endsWith(".class") &&
+                !("R.class" == name || "BuildConfig.class"== name || "BR.class" == name || "AutoAnnotation.class" == name || "App.class" == name) && !name.startsWith("R\$")
+//                &&
+//                !(name.startsWith("R\$") || name.startsWith("DataBind") || name.startsWith("ARouter") || name.contains("Provider") || name.contains("Binding"))
+//                &&
+//                (name.contains("Activity") || name.contains("Fragment") || name.contains("Adapter"))
+//        boolean isInject = name.endsWith(".class") && (name.contains("Activity") || name.contains("Fragment"))
+        return isInject
     }
 
     @Override
